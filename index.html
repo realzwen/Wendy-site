@@ -300,6 +300,57 @@
       position: relative; z-index: 1;
     }
 
+    /* ── Responsive / Mobile ── */
+    @media (max-width: 480px) {
+      .wrapper {
+        padding: 20px 12px 60px;
+        gap: 20px;
+      }
+      .header-card {
+        padding: 28px 16px 20px;
+        border-radius: 20px;
+      }
+      .header-card h1 {
+        font-size: 1.9rem;
+      }
+      .header-card .subtitle {
+        font-size: .92rem;
+      }
+      .discord-card,
+      .msg-card {
+        padding: 20px 16px;
+        border-radius: 20px;
+      }
+      .profile-row {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 14px;
+      }
+      .avatar-wrap img {
+        width: 80px; height: 80px;
+      }
+      .profile-info {
+        min-width: unset;
+        width: 100%;
+      }
+      .profile-info .display-name {
+        font-size: 1.2rem;
+      }
+      .badges {
+        justify-content: center;
+      }
+      .msg-card p {
+        font-size: .95rem;
+      }
+      .msg-card .big-heart {
+        font-size: 2.4rem;
+      }
+      footer {
+        font-size: .78rem;
+      }
+    }
+
     /* ── Loading overlay ── */
     #loading {
       position: fixed; inset: 0;
