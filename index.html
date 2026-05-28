@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🎀 Wendy'nin Doğum Günü 🎀</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pink:       #ff6eb4;
+      --pink-light: #ffb3d9;
+      --pink-pale:  #fff0f7;
+      --pink-dark:  #d63384;
+      --purple:     #c084fc;
+      --white:      #ffffff;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ffe4f0 0%, #ffd6f0 40%, #e8d5ff 100%);
+      font-family: 'Nunito', sans-serif;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ── Sakura petals ── */
+    .petals-container {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+    }
+    .petal {
+      position: absolute;
+      top: -40px;
+      width: 18px; height: 18px;
+      background: radial-gradient(circle at 30% 30%, #ffb3d9, #ff6eb4);
+      border-radius: 50% 0 50% 0;
+      opacity: 0.75;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      0%   { transform: translateY(0) rotate(0deg);   opacity: .8; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* ── Stars / sparkles ── */
+    .sparkle {
+      position: fixed; pointer-events: none; z-index: 0;
+      width: 6px; height: 6px;
+      background: var(--pink-light);
+      border-radius: 50%;
+      animation: twinkle 2s ease-in-out infinite;
+    }
+    @keyframes twinkle {
+      0%,100% { opacity: 0; transform: scale(.5); }
+      50%      { opacity: 1; transform: scale(1.4); }
+    }
+
+    /* ── Layout ── */
+    .wrapper {
+      position: relative; z-index: 1;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+      display: flex; flex-direction: column; align-items: center; gap: 32px;
+    }
+
+    /* ── Header ── */
+    .header-card {
+      width: 100%;
+      background: rgba(255,255,255,.65);
+      backdrop-filter: blur(14px);
+      border: 2px solid var(--pink-light);
+      border-radius: 28px;
+      padding: 36px 28px 28px;
+      text-align: center;
+      box-shadow: 0 8px 40px rgba(255,110,180,.25);
+      animation: floatIn .8s ease both;
+    }
+    @keyframes floatIn {
+      from { opacity:0; transform: translateY(30px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+
+    .header-card h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2rem, 7vw, 3.4rem);
+      color: var(--pink-dark);
+      text-shadow: 0 2px 12px rgba(255,110,180,.4);
+      line-height: 1.2;
+    }
+    .header-card .subtitle {
+      margin-top: 10px;
+      font-size: 1.05rem;
+      color: var(--purple);
+      font-weight: 700;
+      letter-spacing: .5px;
+    }
+    .ribbon {
+      display: inline-block;
+      background: linear-gradient(90deg, var(--pink), var(--purple));
+      color: #fff;
+      font-size: .85rem;
+      font-weight: 700;
+      padding: 4px 18px;
+      border-radius: 999px;
+      margin-top: 14px;
+      letter-spacing: 1px;
+    }
+
+    /* ── Discord card ── */
+    .discord-card {
+      width: 100%;
+      background: rgba(255,255,255,.7);
+      backdrop-filter: blur(14px);
+      border: 2px solid var(--pink-light);
+      border-radius: 24px;
+      padding: 28px 24px;
+      box-shadow: 0 8px 40px rgba(255,110,180,.2);
+      animation: floatIn .9s .15s ease both;
+    }
+    .discord-card h2 {
+      font-size: 1rem;
+      color: var(--pink-dark);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 18px;
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    .profile-row {
+      display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+    }
+    .avatar-wrap {
+      position: relative; flex-shrink: 0;
+    }
+    .avatar-wrap img {
+      width: 90px; height: 90px;
+      border-radius: 50%;
+      border: 4px solid var(--pink);
+      object-fit: cover;
+      box-shadow: 0 0 0 4px rgba(255,110,180,.25);
+    }
+    .status-dot {
+      position: absolute; bottom: 4px; right: 4px;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      background: #747f8d;
+    }
+    .status-dot.online  { background: #3ba55c; }
+    .status-dot.idle    { background: #faa61a; }
+    .status-dot.dnd     { background: #ed4245; }
+    .status-dot.offline { background: #747f8d; }
+
+    .profile-info { flex: 1; min-width: 160px; }
+    .profile-info .display-name {
+      font-size: 1.4rem; font-weight: 900;
+      color: var(--pink-dark);
+    }
+    .profile-info .username {
+      font-size: .9rem; color: #888; margin-top: 2px;
+    }
+    .profile-info .activity {
+      margin-top: 10px;
+      font-size: .85rem;
+      color: var(--purple);
+      font-weight: 700;
+      background: rgba(192,132,252,.12);
+      border-radius: 10px;
+      padding: 6px 12px;
+      display: inline-block;
+    }
+
+    /* badges */
+    .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+    .badge {
+      background: linear-gradient(135deg, var(--pink-light), var(--purple));
+      color: #fff;
+      font-size: .72rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    /* ── Countdown ── */
+    .countdown-card {
+      width: 100%;
+      background: rgba(255,255,255,.7);
+      backdrop-filter: blur(14px);
+      border: 2px solid var(--pink-light);
+      border-radius: 24px;
+      padding: 28px 24px;
+      text-align: center;
+      box-shadow: 0 8px 40px rgba(255,110,180,.2);
+      animation: floatIn 1s .3s ease both;
+    }
+    .countdown-card h2 {
+      font-size: 1rem; color: var(--pink-dark);
+      font-weight: 900; text-transform: uppercase;
+      letter-spacing: 1.5px; margin-bottom: 20px;
+    }
+    .countdown-grid {
+      display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;
+    }
+    .count-box {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      border-radius: 18px;
+      padding: 16px 20px;
+      min-width: 72px;
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(255,110,180,.35);
+    }
+    .count-box .num {
+      font-size: 2.2rem; font-weight: 900; line-height: 1;
+    }
+    .count-box .lbl {
+      font-size: .7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px;
+      opacity: .85; margin-top: 4px;
+    }
+    .bday-msg {
+      margin-top: 18px;
+      font-size: 1.3rem;
+      font-family: 'Dancing Script', cursive;
+      color: var(--pink-dark);
+      font-weight: 700;
+    }
+
+    /* ── Anime gallery ── */
+    .gallery-card {
+      width: 100%;
+      background: rgba(255,255,255,.7);
+      backdrop-filter: blur(14px);
+      border: 2px solid var(--pink-light);
+      border-radius: 24px;
+      padding: 28px 24px;
+      box-shadow: 0 8px 40px rgba(255,110,180,.2);
+      animation: floatIn 1s .45s ease both;
+    }
+    .gallery-card h2 {
+      font-size: 1rem; color: var(--pink-dark);
+      font-weight: 900; text-transform: uppercase;
+      letter-spacing: 1.5px; margin-bottom: 18px;
+      text-align: center;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 12px;
+    }
+    .gallery-grid img {
+      width: 100%; aspect-ratio: 3/4;
+      object-fit: cover;
+      border-radius: 16px;
+      border: 3px solid var(--pink-light);
+      transition: transform .3s, box-shadow .3s;
+    }
+    .gallery-grid img:hover {
+      transform: scale(1.06) rotate(-1deg);
+      box-shadow: 0 8px 28px rgba(255,110,180,.45);
+    }
+
+    /* ── Message card ── */
+    .msg-card {
+      width: 100%;
+      background: rgba(255,255,255,.7);
+      backdrop-filter: blur(14px);
+      border: 2px solid var(--pink-light);
+      border-radius: 24px;
+      padding: 28px 24px;
+      text-align: center;
+      box-shadow: 0 8px 40px rgba(255,110,180,.2);
+      animation: floatIn 1s .6s ease both;
+    }
+    .msg-card p {
+      font-size: 1.05rem;
+      color: #555;
+      line-height: 1.8;
+    }
+    .msg-card .big-heart {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 12px;
+      animation: heartbeat 1.2s ease-in-out infinite;
+    }
+    @keyframes heartbeat {
+      0%,100% { transform: scale(1); }
+      50%      { transform: scale(1.18); }
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      color: var(--pink);
+      font-size: .85rem;
+      font-weight: 700;
+      padding-bottom: 20px;
+      position: relative; z-index: 1;
+    }
+
+    /* ── Loading overlay ── */
+    #loading {
+      position: fixed; inset: 0;
+      background: linear-gradient(135deg, #ffe4f0, #ffd6f0, #e8d5ff);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      z-index: 999;
+      gap: 16px;
+      transition: opacity .6s;
+    }
+    #loading .spin {
+      width: 52px; height: 52px;
+      border: 5px solid var(--pink-light);
+      border-top-color: var(--pink-dark);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #loading p { color: var(--pink-dark); font-weight: 700; font-size: 1rem; }
+  </style>
+</head>
+<body>
+
+<!-- Loading -->
+<div id="loading">
+  <div class="spin"></div>
+  <p>✨ Hazırlanıyor...</p>
+</div>
+
+<!-- Petals -->
+<div class="petals-container" id="petals"></div>
+
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <div class="header-card">
+    <h1>🎀 İyi ki Doğdun w3nddy! 🎀</h1>
+    <p class="subtitle">✨ Bugün senin özel günün ✨</p>
+    <span class="ribbon">🌸 Happy Birthday 🌸</span>
+  </div>
+
+  <!-- DISCORD PROFILE -->
+  <div class="discord-card">
+    <h2>💜 Discord Profili</h2>
+    <div class="profile-row">
+      <div class="avatar-wrap">
+        <img id="avatar" src="https://cdn.discordapp.com/embed/avatars/0.png" alt="avatar"/>
+        <div class="status-dot" id="status-dot"></div>
+      </div>
+      <div class="profile-info">
+        <div class="display-name" id="display-name">Yükleniyor...</div>
+        <div class="username" id="username"></div>
+        <div class="activity" id="activity" style="display:none"></div>
+        <div class="badges" id="badges"></div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <!-- MESSAGE -->
+  <div class="msg-card">
+    <span class="big-heart">💖</span>
+    <p>
+      Sevgili <strong>w3nddy</strong>, bugün senin için çok mutluyum!<br/>
+      Umarım bu gün sana en güzel anıları yaşatır.<br/>
+      Hayatın hep pembe, hep güzel, hep anime dolu olsun~ 🌸<br/>
+      <br/>
+      <em>İyi ki varsın, iyi ki doğdun! 🎀✨</em>
+    </p>
+  </div>
+
+</div>
+
+<footer>made with 💖 for w3nddy</footer>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────
+const DISCORD_ID  = '796706637628571658';
+const BDAY_MONTH  = 5;   // Doğum günü ayı (1-12) — buraya doğru ayı yaz
+const BDAY_DAY    = 28;  // Doğum günü günü
+
+// Anime görselleri (Picsum yerine anime CDN placeholder'ları)
+const ANIME_IMGS = [
+  'https://i.pinimg.com/736x/a1/2b/3c/a12b3c4d5e6f7a8b9c0d1e2f3a4b5c6d.jpg',
+  'https://cdn.donmai.us/sample/a1/2b/sample-a12b3c4d5e6f7a8b9c0d1e2f3a4b5c6d.jpg',
+];
+
+// Güvenilir anime görsel URL'leri (Waifu.pics API)
+const WAIFU_TAGS = ['waifu','neko','shinobu','megumin','uniform'];
+
+// ── PETALS ──────────────────────────────────────────────
+(function spawnPetals() {
+  const c = document.getElementById('petals');
+  for (let i = 0; i < 28; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    const size = 10 + Math.random() * 16;
+    p.style.cssText = `
+      left:${Math.random()*100}%;
+      width:${size}px; height:${size}px;
+      animation-duration:${4+Math.random()*7}s;
+      animation-delay:${Math.random()*8}s;
+    `;
+    c.appendChild(p);
+  }
+  // sparkles
+  for (let i = 0; i < 35; i++) {
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+    s.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      animation-delay:${Math.random()*3}s;
+      animation-duration:${1.5+Math.random()*2}s;
+    `;
+    document.body.appendChild(s);
+  }
+})();
+
+// ── LANYARD / DISCORD ───────────────────────────────────
+async function fetchLanyard() {
+  try {
+    const res  = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
+    const json = await res.json();
+    if (!json.success) throw new Error('Lanyard error');
+    const d = json.data;
+
+    // Avatar
+    const avatarHash = d.discord_user.avatar;
+    const avatarUrl  = avatarHash
+      ? `https://cdn.discordapp.com/avatars/${DISCORD_ID}/${avatarHash}.${avatarHash.startsWith('a_')?'gif':'png'}?size=256`
+      : `https://cdn.discordapp.com/embed/avatars/${parseInt(d.discord_user.discriminator||'0')%5}.png`;
+    document.getElementById('avatar').src = avatarUrl;
+
+    // Names
+    const globalName = d.discord_user.global_name || d.discord_user.username;
+    document.getElementById('display-name').textContent = globalName;
+    document.getElementById('username').textContent     = '@' + d.discord_user.username;
+
+    // Status dot
+    const dot = document.getElementById('status-dot');
+    dot.className = 'status-dot ' + (d.discord_status || 'offline');
+
+    // Activity
+    const actEl = document.getElementById('activity');
+    if (d.activities && d.activities.length > 0) {
+      const act = d.activities.find(a => a.type !== 4) || d.activities[0];
+      if (act) {
+        let txt = '';
+        if (act.type === 0) txt = '🎮 ' + act.name;
+        else if (act.type === 2) txt = '🎵 ' + (act.details || act.name);
+        else if (act.type === 4 && act.state) txt = '💬 ' + act.state;
+        else txt = '✨ ' + act.name;
+        actEl.textContent = txt;
+        actEl.style.display = 'inline-block';
+      }
+    }
+
+    // Badges (Spotify özel)
+    const badgesEl = document.getElementById('badges');
+    if (d.listening_on_spotify) {
+      const b = document.createElement('span');
+      b.className = 'badge';
+      b.textContent = '🎵 Spotify';
+      badgesEl.appendChild(b);
+    }
+    const statusLabels = { online:'🟢 Çevrimiçi', idle:'🌙 Boşta', dnd:'⛔ Rahatsız Etme', offline:'⚫ Çevrimdışı' };
+    const sb = document.createElement('span');
+    sb.className = 'badge';
+    sb.textContent = statusLabels[d.discord_status] || '⚫ Çevrimdışı';
+    badgesEl.appendChild(sb);
+
+  } catch(e) {
+    document.getElementById('display-name').textContent = 'w3nddy';
+    document.getElementById('username').textContent     = '@w3nddy';
+    console.warn('Lanyard fetch failed:', e);
+  }
+}
+
+// ── COUNTDOWN ───────────────────────────────────────────
+function updateCountdown() {
+  const now   = new Date();
+  let   bday  = new Date(now.getFullYear(), BDAY_MONTH - 1, BDAY_DAY, 0, 0, 0);
+  if (bday < now) bday.setFullYear(bday.getFullYear() + 1);
+
+  const diff  = bday - now;
+  const isToday = (now.getMonth()+1 === BDAY_MONTH && now.getDate() === BDAY_DAY);
+
+  const msgEl = document.getElementById('bday-msg');
+
+  if (isToday) {
+    document.getElementById('cd-days').textContent  = '🎉';
+    document.getElementById('cd-hours').textContent = '🎂';
+    document.getElementById('cd-mins').textContent  = '🌸';
+    document.getElementById('cd-secs').textContent  = '💖';
+    msgEl.textContent = '🎀 Bugün senin günün! İyi ki doğdun w3nddy! 🎀';
+    return;
+  }
+
+  const days  = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  const mins  = Math.floor((diff % 3600000)  / 60000);
+  const secs  = Math.floor((diff % 60000)    / 1000);
+
+  document.getElementById('cd-days').textContent  = String(days).padStart(2,'0');
+  document.getElementById('cd-hours').textContent = String(hours).padStart(2,'0');
+  document.getElementById('cd-mins').textContent  = String(mins).padStart(2,'0');
+  document.getElementById('cd-secs').textContent  = String(secs).padStart(2,'0');
+
+  if (days === 0) msgEl.textContent = '🎉 Yarın doğum günün! Heyecanlandım bile~';
+  else if (days <= 7) msgEl.textContent = `🌸 ${days} gün kaldı, az kaldı!`;
+  else msgEl.textContent = `💜 ${days} gün sonra doğum günün gelecek~`;
+}
+
+// ── ANIME GALLERY ────────────────────────────────────────
+async function loadGallery() {
+  const grid = document.getElementById('gallery');
+  const tags = ['waifu','neko','shinobu','megumin','uniform','maid'];
+  const promises = tags.map(tag =>
+    fetch(`https://api.waifu.pics/sfw/${tag}`)
+      .then(r => r.json())
+      .then(j => j.url)
+      .catch(() => null)
+  );
+  const urls = await Promise.all(promises);
+  urls.filter(Boolean).forEach(url => {
+    const img = document.createElement('img');
+    img.src = url;
+    img.alt = 'anime';
+    img.loading = 'lazy';
+    grid.appendChild(img);
+  });
+  if (grid.children.length === 0) {
+    grid.innerHTML = '<p style="color:#aaa;text-align:center;grid-column:1/-1">🌸 Görseller yüklenemedi</p>';
+  }
+}
+
+// ── INIT ─────────────────────────────────────────────────
+(async function init() {
+  await fetchLanyard();
+
+  // Hide loading
+  const ld = document.getElementById('loading');
+  ld.style.opacity = '0';
+  setTimeout(() => ld.remove(), 700);
+})();
+</script>
+</body>
+</html>
